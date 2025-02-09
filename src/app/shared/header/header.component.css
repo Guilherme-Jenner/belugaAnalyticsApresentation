@@ -1,0 +1,16 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem;
+  align-items: center;
+  width: 100%;
+}
+
+.text h2 {
+  font-weight: 700;
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+}

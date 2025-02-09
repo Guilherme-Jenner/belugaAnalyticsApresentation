@@ -1,0 +1,152 @@
+<main>
+  <app-side-bar></app-side-bar>
+  <div class="content-container">
+    <app-header style="width: 100%" title="Gerenciamento de Dispositivos"></app-header>
+    <div class="content">
+      <app-card
+        class="card"
+        style="width: 23%; height: 15%"
+        cardType="text"
+        [cardContent]="{
+                    title: 'Total de Dispositivos',
+                    content: '3',
+                }"
+        [cardStyle]="{
+                    header: {
+                        color: 'rgb(107 114 128)'
+                    },
+                    footer: {
+                        color: '#22C55E'
+                    }
+                }"
+      ></app-card>
+      <app-card
+        class="card"
+        style="width: 23%; height: 15%"
+        cardType="text"
+        [cardContent]="{
+                    title: 'Ativos',
+                    content: '3',
+                }"
+        [cardStyle]="{
+                    header: {
+                       color: 'rgb(107 114 128)'
+                    },
+                    footer: {
+                        color: '#22C55E'
+                    },
+                    content: {
+                        color: 'rgb(16 185 129)'
+                    }
+                }"
+      ></app-card>
+      <app-card
+        class="card"
+        style="width: 23%; height: 15%"
+        cardType="text"
+        [cardContent]="{
+                    title: 'Atenção',
+                    content: '3',
+                }"
+        [cardStyle]="{
+                    header: {
+                       color: 'rgb(107 114 128)'
+                    },
+                    footer: {
+                        color: '#22C55E'
+                    },
+                    content: {
+                        color: 'rgb(245 158 11)'
+                    }
+                }"
+      ></app-card>
+      <app-card
+        class="card"
+        style="width: 23%; height: 15%"
+        cardType="text"
+        [cardContent]="{
+                    title: 'Offline',
+                    content: '3',
+                }"
+        [cardStyle]="{
+                    header: {
+                        color: 'rgb(107 114 128)'
+                    },
+                    footer: {
+                        color: '#22C55E'
+                    },
+                    content: {
+                        color: 'rgb(239 68 68)'
+                    }
+                }"
+      ></app-card>
+      <app-card
+        class="card"
+        style="width: 100%; height: 75%"
+        cardType="text"
+        [cardContent]="{
+                    title: 'Mapa da Loja',
+                    content: '3',
+                }"
+        [cardStyle]="{
+                    header: {
+                        color: 'rgb(107 114 128)'
+                    },
+                    footer: {
+                        color: '#22C55E'
+                    }
+                }"
+      ></app-card>
+      <app-card
+        class="card"
+        style="width: 100%; height: 50%"
+        cardType="text"
+        [cardContent]="{
+                    title: 'Mapa da Loja',
+                    content: '3',
+                }"
+        [cardStyle]="{
+                    header: {
+                        color: 'rgb(107 114 128)'
+                    },
+                    footer: {
+                        color: '#22C55E'
+                    }
+                }"
+      ></app-card>
+      <div>
+        <dx-data-grid
+          [dataSource]="dispositivos"
+        >
+          <dxo-editing
+            mode="popup"
+            [allowAdding]="true"
+            [allowUpdating]="true"
+            [allowDeleting]="true"
+            [useIcons]="true"
+          ></dxo-editing>
+          <dxi-column
+            dataField="nome"
+            caption="Nome"
+          ></dxi-column>
+          <dxi-column
+            dataField="zona"
+            caption="Setor"
+          ></dxi-column>
+          <dxi-column
+            dataField="status"
+            caption="Status"
+          ></dxi-column>
+          <dxi-column
+            dataField="dataCriacao"
+            caption="Instalação"
+          ></dxi-column>
+          <dxi-column
+            dataField="data_Modificacao"
+            caption="Última Atualização"
+          ></dxi-column>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</main>

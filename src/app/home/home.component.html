@@ -1,0 +1,146 @@
+<main>
+    <app-side-bar></app-side-bar>
+    <div class="content-container">
+        <app-header style="width: 100%"></app-header>
+        <div class="content">
+            <app-card
+                class="card"
+                style="width: 23%;"
+                cardType="text"
+                [cardContent]="{
+                    title: 'Total de Visitantes',
+                    iconTitle: 'assets/1.svg',
+                    iconTitleSize: '30px',
+                    content: data.totalVisitantes.toString(),
+                    footer: 'Últimos 7 dias'
+                }"
+                [cardStyle]="{
+                    footer: {
+                        color: '#22C55E'
+                    }
+                }"
+            ></app-card>
+            <app-card
+                class="card"
+                style="width: 23%;"
+                cardType="text"
+                [cardContent]="{
+                    title: 'Tempo Média Olhando',
+                    iconTitle: 'assets/icons8-visão-96 1.svg',
+                    content: data.tempoMedio.toFixed(2).toString(),
+                    footer: 'Segundos'
+                }"
+
+            ></app-card>
+            <app-card
+                class="card"
+                style="width: 23%;"
+                cardType="text"
+                [cardContent]="{
+                    title: 'Interação com os Produtos',
+                    iconTitle: 'assets/4.svg',
+                    iconTitleSize: '30px',
+                    content: data.interacoes.toString(),
+                    footer: 'Pessoas Diferentes'
+                }"
+                [cardStyle]="{
+                    footer: {
+                        color: 'gray'                    }
+                }"
+            ></app-card>
+            <app-card
+                class="card"
+                style="width: 23%;"
+                cardType="text"
+                [cardContent]="{
+                    title: 'Satisfação Média',
+                    iconTitle: 'assets/icons8-feliz-96 1.svg',
+                    content: data.satisfacao.toFixed().toString() + '%',
+                    footer: 'Por Mês'
+                }"
+                [cardStyle]="{
+                    footer: {
+                        color: 'black'
+                    }
+                }"
+            ></app-card>
+            <app-card
+              class="card"
+              style="width: 48%; height: 75%"
+              cardType="content"
+              [cardContent]="{
+                      title: 'Status do dispositivo',
+                      iconTitle: 'assets/4.svg',
+                  }"
+            >
+              <div
+                #mapContainer
+
+              >
+                  <ul class="card-content">
+                    <li>
+                      <div class="header">
+                        <p>Dispositivo 1</p>
+                        <span>Atualizado há 1 minuto atrás</span>
+                      </div>
+                      <h3>Ativo</h3>
+                    </li>
+                    <li>
+                      <div class="header">
+                        <p>Dispositivo 2</p>
+                        <span>Atualizado há 1 minuto atrás</span>
+                      </div>
+                      <h3>Ativo</h3>
+                    </li>
+                    <li>
+                      <div class="header">
+                        <p>Dispositivo 3</p>
+                        <span>Atualizado há 1 minuto atrás</span>
+                      </div>
+                      <h3>Ativo</h3>
+                    </li>
+                    <li>
+                      <div class="header">
+                        <p>Dispositivo 4</p>
+                        <span>Atualizado há 1 minuto atrás</span>
+                      </div>
+                      <h3>Ativo</h3>
+                    </li>
+                  </ul>
+              </div>
+            </app-card>
+            <app-card
+              class="card"
+              style="width: 48%; height: 75%"
+              cardType="content"
+              [cardContent]="{
+                        title: 'Gráficos',
+                        iconTitle: 'assets/4.svg'
+                    }"
+            >
+              @defer (when data.dadosPorTempo.length > 0){
+                <ag-charts
+                  style="height: 100%; width: 100%; align-self: center"
+                  [options]="graphicOption"
+                ></ag-charts>
+              }
+            </app-card>
+            <app-card
+              class="card"
+              style="width: 48%; height: 50%"
+              cardType="text"
+              [cardContent]="{
+                          title: 'Métricas da Loja',
+                          iconTitle: 'assets/4.svg',
+                          content: '',
+                          footer: ''
+                      }"
+              [cardStyle]="{
+                          footer: {
+                              color: '#22C55E'
+                          }
+                      }"
+            ></app-card>
+        </div>
+    </div>
+</main>

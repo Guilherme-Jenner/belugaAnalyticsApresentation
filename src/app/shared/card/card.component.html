@@ -1,0 +1,28 @@
+<div class="card-container" [style.justify-content]="cardType == 'text' ? 'space-between' : ''">
+    <div class="card-header" [style]="cardStyle.header">
+        @if(cardContent.iconTitle){
+          <img class="title-icon" [style.height]="cardContent.iconTitleSize ? cardContent.iconTitleSize : ''" [style.width]="cardContent.iconTitleSize ? cardContent.iconTitleSize : ''" [src]="cardContent.iconTitle">
+        }
+        <p>{{cardContent.title}}</p>
+    </div>
+    @if (cardType === 'text') {
+        <div class="card-content">
+            <p [style]="cardStyle.content">{{cardContent.content}}</p>
+        </div>
+        @if(cardContent.footer){
+          <div class="card-footer" [style]="cardStyle.footer">
+            <span>{{cardContent.footer}}</span>
+          </div>
+        }
+       @if(cardContent.icon){
+         <div class="icon">
+           <img [src]="cardContent.icon" alt="sexo">
+         </div>
+       }
+    }
+    @else {
+      <div class="ng-content">
+        <ng-content></ng-content>
+      </div>
+    }
+</div>

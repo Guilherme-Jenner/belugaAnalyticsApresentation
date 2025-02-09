@@ -1,0 +1,48 @@
+.card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+    gap: 1rem;
+    background-color: white;
+    position: relative;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    overflow-y: hidden;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.title-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.card-content {
+    font-size: 1.5rem;
+    font-weight: bolder;
+}
+
+.card-footer {
+    font-size: 0.9rem;
+}
+
+.icon {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.ng-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
