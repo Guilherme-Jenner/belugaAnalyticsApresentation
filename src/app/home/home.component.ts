@@ -89,6 +89,7 @@ export class HomeComponent implements OnInit{
 
         this.initializeGraphic()
       })
+      this.data.dadosPorTempo.forEach(a => a.dataCriacao = format(a.dataCriacao, 'dd/MM/yyyy'));
   }
 /*
   initializeHeatMap(){
