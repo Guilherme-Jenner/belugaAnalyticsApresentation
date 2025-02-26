@@ -66,48 +66,31 @@
             ></app-card>
             <app-card
               class="card"
-              style="width: 48%; height: 75%"
+              style="width: 48%; height: 75%;"
               cardType="content"
               [cardContent]="{
                       title: 'Status do dispositivo',
                       iconTitle: 'assets/4.svg',
                   }"
             >
-              <div
+              @defer (when dispositivos.length > 0){
+                <div
                 #mapContainer
 
               >
                   <ul class="card-content">
-                    <li>
-                      <div class="header">
-                        <p>Dispositivo 1</p>
-                        <span>Atualizado há 1 minuto atrás</span>
-                      </div>
-                      <h3>Ativo</h3>
-                    </li>
-                    <li>
-                      <div class="header">
-                        <p>Dispositivo 2</p>
-                        <span>Atualizado há 1 minuto atrás</span>
-                      </div>
-                      <h3>Ativo</h3>
-                    </li>
-                    <li>
-                      <div class="header">
-                        <p>Dispositivo 3</p>
-                        <span>Atualizado há 1 minuto atrás</span>
-                      </div>
-                      <h3>Ativo</h3>
-                    </li>
-                    <li>
-                      <div class="header">
-                        <p>Dispositivo 4</p>
-                        <span>Atualizado há 1 minuto atrás</span>
-                      </div>
-                      <h3>Ativo</h3>
-                    </li>
+                    @for(dispositivo of dispositivos; track dispositivo.id){
+                      <li>
+                        <div class="header">
+                          <p>{{dispositivo.nome}}</p>
+                          <h3 [class]="classeStatus(dispositivo.status)">{{statusTraduzido(dispositivo.status)}}</h3>
+                        </div>
+                        <span>{{dispositivo.data_Modificacao | date:'dd/MM/yyyy'}}</span>
+                      </li>
+                    }
                   </ul>
               </div>
+              }
             </app-card>
             <app-card
               class="card"

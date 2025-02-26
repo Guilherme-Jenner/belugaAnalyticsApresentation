@@ -1,4 +1,4 @@
-export interface  IZona {
-  id : number;
-  nome : string;
+export interface IZona {
+  id: number;
+  nome: string;
 }

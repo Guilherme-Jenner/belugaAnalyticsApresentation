@@ -1,0 +1,37 @@
+<div class="popup-overlay" [@fadeInOut]>
+  <div class="popup-container" [@slideIn]>
+    <div class="popup-content">
+      <h2>Cadastro de Loja</h2>
+      
+      <form #lojaForm="ngForm">
+        <div class="form-group">
+          <label for="nome">Nome da Loja <span style="color: red; font-size: 12px;">*</span></label>
+          <input 
+            type="text" 
+            id="nome" 
+            name="nome" 
+            [(ngModel)]="loja.nome" 
+            required
+            class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="cnpj">CNPJ <span style="color: red; font-size: 12px;">*</span></label>
+          <input 
+            type="text" 
+            id="cnpj" 
+            name="cnpj" 
+            [(ngModel)]="loja.cnpj"
+            required
+            mask="00.000.000/0000-00"
+            class="form-control">
+        </div>
+
+        <div class="buttons">
+          <button type="button" class="btn btn-secondary" (click)="fechar()">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="!lojaForm.valid" (click)="salvarLoja()">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

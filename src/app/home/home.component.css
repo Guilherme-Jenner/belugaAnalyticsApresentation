@@ -11,6 +11,7 @@
   height: 100%;
   width: 100%;
   display: flex;
+  padding: 1.5rem 0.75rem;
   gap: 3rem;
   flex-direction: column;
 }
@@ -22,8 +23,16 @@ li {
 
 }
 
-.card-content h3 {
-  color: #9ff89f;
+.success {
+  color: #81ff81;
+}
+
+.warning {
+  color: #ff8228;
+}
+
+.danger {
+  color: #ff1313;
 }
 
 .header {
@@ -33,7 +42,7 @@ li {
   justify-content: space-between;
 }
 
-.header span {
+li span {
   color: gray;
   font-size: 14px;
 }

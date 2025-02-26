@@ -6,15 +6,17 @@ import {IComportamentoConsumidor} from "../interface/Comportamento_Consumidor.in
 import {AgCharts} from "ag-charts-angular";
 import { AgChartOptions, AgLineSeriesOptions } from "ag-charts-community";
 import * as d3 from 'd3';
-import {format} from "date-fns";
+import {format, parseISO} from "date-fns";
 import {HeaderComponent} from "../shared/header/header.component";
-
+import { IDispositivo } from '../interface/Dispositivo.interface';
+import { DatePipe } from '@angular/common';
+import { GlobalService } from '../services/global.service';
 
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CardComponent, SideBarComponent, AgCharts, HeaderComponent],
+  imports: [CardComponent, SideBarComponent, AgCharts, HeaderComponent, DatePipe],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -66,30 +68,63 @@ export class HomeComponent implements OnInit{
     satisfacao: 62
   }
 
+  dispositivos : IDispositivo[] = []
+
+  statusTraduzido = (status : string) => {
+    switch(status){
+      case 'Ativo':
+        return 'Ativo'
+      case 'Em_Manutencao':
+        return 'Em Manutenção'
+      default:
+        return 'Inativo'
+    }
+  }
+
+  classeStatus = (status : string) => {
+    switch(status){
+      case 'Ativo':
+        return 'success'
+      case 'Em_Manutencao':
+        return 'warning'
+      default:
+        return 'danger'
+    }
+  }
+
   graphicOption! : AgChartOptions
 
-    constructor(private httpService : HttpService) {
+    constructor(private httpService : HttpService, private globalService : GlobalService) {
 
     }
 
     ngOnInit(): void {
-      //this.initializeHeatMap()
+      this.getDispositivos()
       this.initializeGraphic()
       this.getData()
     }
 
-    getData(){
-      this.httpService.getComportamentos_Consumidor().subscribe((data : any) => {
-        console.log(data);
-        this.data = data;
-        this.data.dadosPorTempo = data.comportamento_Consumidor
-        this.data.satisfacao = this.data.interacoes / this.data.totalVisitantes  * 100
-
-        this.data.dadosPorTempo.forEach(a => a.dataCriacao = format(a.dataCriacao, 'dd/MM/yyyy'));
-
-        this.initializeGraphic()
+    getDispositivos(): void {
+      this.httpService.getDispositivos(2).subscribe((dispositivos) => {
+        this.dispositivos = dispositivos;
+        console.log(this.dispositivos)
       })
-      this.data.dadosPorTempo.forEach(a => a.dataCriacao = format(a.dataCriacao, 'dd/MM/yyyy'));
+    }
+
+    getData(){
+      this.globalService.lojaSelecionada$.subscribe((loja) => {
+        this.httpService.getComportamentos_Consumidor(loja.Id).subscribe((data : any) => {
+          console.log(data);
+          this.data = data;
+          this.data.dadosPorTempo = data.comportamento_Consumidor
+          this.data.satisfacao = this.data.interacoes / this.data.totalVisitantes  * 100
+  
+          this.data.dadosPorTempo.forEach(a => a.dataCriacao = format(a.dataCriacao, 'dd/MM/yyyy'));
+  
+          this.initializeGraphic()
+        })
+        this.data.dadosPorTempo.forEach(a => a.dataCriacao = format(a.dataCriacao, 'dd/MM/yyyy'));
+      })
   }
 /*
   initializeHeatMap(){

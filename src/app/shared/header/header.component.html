@@ -1,10 +1,28 @@
 <header class="header">
   <div class="text">
     <h2>{{title}}</h2>
-    <span>Loja Centro - São Paulo</span>
+    @if(lojas.length > 0){
+      <span>{{lojaSelecionada.nome}}</span>
+    } @else {
+      <button class="btn-add-loja" (click)="popUpAberto = true">Adicionar Loja</button>
+    }
   </div>
   <div class="buttons">
-    <button class="btn-primary">Exportar Dados</button>
-    <button>Filtros</button>
+    @if(lojas.length > 0){
+      <button class="btn-add-loja" (click)="popUpAberto = true">Adicionar Loja</button>
+    }
+    <div class="dropdown">
+      <button (click)="abrirDropdown()">Trocar Loja &darr;</button>
+      @if(dropdownAberto){
+        <div class="dropdown-content">
+          @for(loja of lojas; track loja.id){
+            <button class="dropdown-item" (click)="trocarLoja(loja)">{{loja.nome}}</button>
+          }
+        </div>
+      }
+    </div>
   </div>
 </header>
+@if(popUpAberto){
+  <app-pop-up-loja (fecharPopup)="popUpAberto = false"></app-pop-up-loja>
+}
