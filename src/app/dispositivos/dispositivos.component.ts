@@ -7,7 +7,7 @@ import {HttpService} from "../services/http.service";
 import {IDispositivo} from "../interface/Dispositivo.interface";
 import notify from "devextreme/ui/notify";
 import { IZona } from '../interface/Zona.interface';
-
+import { GlobalService } from '../services/global.service';
 @Component({
   selector: 'app-dispositivos',
   standalone: true,
@@ -22,7 +22,7 @@ import { IZona } from '../interface/Zona.interface';
   styleUrl: './dispositivos.component.css'
 })
 export class DispositivosComponent implements OnInit {
-      constructor(private httpService : HttpService) {
+      constructor(private httpService : HttpService, private globalService : GlobalService) {
       }
 
       @ViewChild(DxDataGridComponent, {static: false}) dispositivosGrid?: DxDataGridComponent;
@@ -45,8 +45,10 @@ export class DispositivosComponent implements OnInit {
       }
 
       getDispositivos(): void {
-        this.httpService.getDispositivos(2).subscribe((dispositivos) => {
-          this.dispositivos = dispositivos;
+        this.globalService.lojaSelecionada$.subscribe((loja) => {
+          this.httpService.getDispositivos(loja.id).subscribe((dispositivos) => {
+            this.dispositivos = dispositivos;
+          })
         })
       }
       

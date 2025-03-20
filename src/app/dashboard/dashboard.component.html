@@ -45,8 +45,7 @@
                 }"
                 [cardStyle]="{
                     footer: {
-                        color: 'gray'  
-                    }
+                        color: 'gray'                    }
                 }"
             ></app-card>
             <app-card
@@ -56,7 +55,7 @@
                 [cardContent]="{
                     title: 'Satisfação Média',
                     iconTitle: 'assets/icons8-feliz-96 1.svg',
-                    content: data.satisfacao! ? data.satisfacao + '%' : '0%',
+                    content: data?.satisfacao ? data.satisfacao.toFixed(2).toString() + '%' : '0%',
                     footer: 'Por Mês'
                 }"
                 [cardStyle]="{
@@ -67,19 +66,19 @@
             ></app-card>
             <app-card
               class="card"
-              style="width: 100%; height: 75%;"
+              style="width: 48%; height: 75%;"
               cardType="content"
               [cardContent]="{
-                      title: 'Lojas',
+                      title: 'Prateleiras',
                       iconTitle: 'assets/4.svg',
                   }"
             >
-              @defer (when lojas){
+              @defer (when prateleiras){
                 <div
                 >
                   <dx-data-grid
-                    #lojasGrid
-                    [dataSource]="lojas"
+                    #prateleriasGrid
+                    [dataSource]="prateleiras"
                     [showBorders]="true"
                     keyExpr="id"
                     [showColumnLines]="false"
@@ -115,11 +114,39 @@
                       cellTemplate="linkCellTemplate"
                     >
                       <div *dxTemplate="let cellInfo of 'linkCellTemplate'">
-                        <a [routerLink]="'/dashboard/' + cellInfo.data.id"><img class="goToImg" src="assets/goToIcon.svg"></a>
+                        <a [routerLink]="['/dashboardPrateleira/' + cellInfo.data.id]"><img class="goToImg" src="assets/goToIcon.svg"></a>
                       </div>
                     </dxi-column>
                   </dx-data-grid>
                 </div>
+              }
+              @placeholder {
+                <div class="card-content">
+                  <p>Carregando...</p>
+                </div>
+              }
+            </app-card>
+            <app-card
+              class="card"
+              style="width: 48%; height: 75%"
+              cardType="content"
+              [cardContent]="{
+                        title: 'Gráficos',
+                        iconTitle: 'assets/4.svg'
+                    }"
+            >
+              @defer (when data){
+                @if(data.dadosPorTempo.length > 0){
+                  <ag-charts
+                    style="height: 100%; width: 100%; align-self: center"
+                    [options]="graphicOption"
+                  ></ag-charts>
+                }
+                @else {
+                  <div class="card-content">
+                    <p>Nenhum dado encontrado</p>
+                  </div>
+                }
               }
               @placeholder {
                 <div class="card-content">

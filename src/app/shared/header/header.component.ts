@@ -1,43 +1,44 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectorRef} from '@angular/core';
 import { PopUpLojaComponent } from '../pop-up-loja/pop-up-loja.component';
 import { GlobalService } from '../../services/global.service';
+import { PopUpMarcaComponent } from "../pop-up-marca/pop-up-marca.component";
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [PopUpLojaComponent],
+  imports: [PopUpLojaComponent, PopUpMarcaComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit{
 
   @Input() title : string = "Analytics da Loja"
-  lojaSelecionada : any;
-  lojas : any[] = [];
-  popUpAberto : boolean = false;
-  dropdownAberto : boolean = false;
+  marca : any;
+  popUpMarcaAberto : boolean = false;
+  popUpLojaAberto : boolean = false;
 
   constructor(private globalService : GlobalService){}
 
   ngOnInit(): void {
-    const lojas = JSON.parse(localStorage.getItem('loja') || '[]');
-    if(lojas.length > 0){
-      this.lojas = lojas;
-      this.lojaSelecionada = lojas[0];
-    }
-    else {
-      this.popUpAberto = true;
-    }
+    this.getMarca();
   }
 
-  trocarLoja(loja : any){
-    this.lojaSelecionada = loja;
-    this.globalService.setLojaSelecionada(loja);
-    this.dropdownAberto = false;
+  getMarca(){
+    const marca = JSON.parse(localStorage.getItem('marca') || '[]');
+    if(marca.length === 0){
+      this.popUpMarcaAberto = true;
+    }
+    else {
+      this.marca = marca;
+    } 
   }
 
   abrirDropdown(){
-    this.dropdownAberto = !this.dropdownAberto;
-    console.log(this.dropdownAberto);
+    this.popUpLojaAberto = !this.popUpLojaAberto;
+  }
+
+  fecharPopUpMarca(){
+    this.popUpMarcaAberto = false;
+    window.location.reload();
   }
 }

@@ -1,8 +1,7 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {CardComponent} from "../shared/card/card.component";
 import { SideBarComponent } from "../shared/side-bar/side-bar.component";
 import { HttpService } from "../services/http.service"
-import {IComportamentoConsumidor} from "../interface/Comportamento_Consumidor.interface";
 import {AgCharts} from "ag-charts-angular";
 import { AgChartOptions, AgLineSeriesOptions } from "ag-charts-community";
 import * as d3 from 'd3';
@@ -11,64 +10,31 @@ import {HeaderComponent} from "../shared/header/header.component";
 import { IDispositivo } from '../interface/Dispositivo.interface';
 import { DatePipe } from '@angular/common';
 import { GlobalService } from '../services/global.service';
+import { ChangeDetectionStrategy } from '@angular/compiler';
+import { DxDataGridModule } from 'devextreme-angular';
+import { ILoja } from '../interface/Loja.interface';
+import { RouterLink } from '@angular/router';
+import { IDadosPorTempo } from '../interface/DadosPorTempo.interface';
+import { IDadosDispostivo } from '../interface/DadosDispositivo.interface';
+import notify from 'devextreme/ui/notify';
 
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CardComponent, SideBarComponent, AgCharts, HeaderComponent, DatePipe],
+  imports: [CardComponent, SideBarComponent, AgCharts, HeaderComponent, DatePipe, DxDataGridModule, RouterLink],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit{
 
-  @ViewChild('mapContainer', { static: true }) mapContainer!: ElementRef;
-  @ViewChild('image', { static: true }) image!: ElementRef;
+  data! : IDadosDispostivo 
 
-  heatmapInstance!: any;
+  lojas! : ILoja[]
 
+  marca: {id: number, nome: string} = JSON.parse(localStorage.getItem('marca') || '{}')
 
-  data : IComportamentoConsumidor = {
-    dadosPorTempo: [
-      {
-        dataCriacao: '2024-01-10T00:00:00',
-        engajamentos: 12,
-        entradas: 42,
-      },
-      {
-        dataCriacao: '2024-02-10T00:00:00',
-        engajamentos: 18,
-        entradas: 39,
-      },
-      {
-        dataCriacao: '2024-03-04T00:00:00',
-        engajamentos: 11,
-        entradas: 48,
-      },
-      {
-        dataCriacao: '2024-04-25T00:00:00',
-        engajamentos: 25,
-        entradas: 57,
-      },
-      {
-        dataCriacao: '2024-05-02T00:00:00',
-        engajamentos: 32,
-        entradas: 56,
-      },
-      {
-        dataCriacao: '2024-06-14T00:00:00',
-        engajamentos: 43,
-        entradas: 64,
-      },
-    ],
-    interacoes: 575, tempoMedio: 8.52, totalVisitantes: 1450, zonaMaisVisitada: {
-      id: 0,
-      nome: ''
-    },
-    satisfacao: 62
-  }
-
-  dispositivos : IDispositivo[] = []
+  prateleiras!: any
 
   statusTraduzido = (status : string) => {
     switch(status){
@@ -94,37 +60,45 @@ export class HomeComponent implements OnInit{
 
   graphicOption! : AgChartOptions
 
-    constructor(private httpService : HttpService, private globalService : GlobalService) {
+  constructor(private httpService : HttpService, private globalService : GlobalService) {
 
-    }
+  }
 
-    ngOnInit(): void {
-      this.getDispositivos()
-      this.initializeGraphic()
-      this.getData()
-    }
+  ngOnInit(): void {
+    this.getData()
+    this.getLojasByMarca()
+  }
 
-    getDispositivos(): void {
-      this.httpService.getDispositivos(2).subscribe((dispositivos) => {
-        this.dispositivos = dispositivos;
-        console.log(this.dispositivos)
-      })
-    }
+  getLojasByMarca(): void {
+    this.httpService.getLojasByMarca(1).subscribe((lojas) => {
+      lojas.forEach(l => l.satisfacao! = parseInt(l.satisfacao?.toFixed(2)!));
+      this.lojas = lojas;
+    });
+  }
 
-    getData(){
-      this.globalService.lojaSelecionada$.subscribe((loja) => {
-        this.httpService.getComportamentos_Consumidor(loja.Id).subscribe((data : any) => {
-          console.log(data);
-          this.data = data;
-          this.data.dadosPorTempo = data.comportamento_Consumidor
-          this.data.satisfacao = this.data.interacoes / this.data.totalVisitantes  * 100
+  getData(){
+    this.httpService.getDadosByMarca(1).subscribe({
+      next: (data : IDadosDispostivo) => {
+        data.satisfacao = parseFloat(data.satisfacao?.toFixed(2)!);
+        this.data = data;
+        //this.data.dadosPorTempo.forEach((a : IDadosPorTempo) => a.dataCriacao = format(a.dataCriacao, 'dd/MM/yyyy'));
   
-          this.data.dadosPorTempo.forEach(a => a.dataCriacao = format(a.dataCriacao, 'dd/MM/yyyy'));
-  
-          this.initializeGraphic()
+        // if(this.data.dadosPorTempo.length > 0){
+        //   this.initializeGraphic()
+        // }
+      },
+      error: (errorResponse) => {
+        notify({
+          message: errorResponse.error,
+          type: 'error',
+          displayTime: 2000
         })
-        this.data.dadosPorTempo.forEach(a => a.dataCriacao = format(a.dataCriacao, 'dd/MM/yyyy'));
-      })
+      }
+    })
+  }
+
+  goTo(data : any){
+    console.log(data)
   }
 /*
   initializeHeatMap(){
@@ -167,40 +141,4 @@ export class HomeComponent implements OnInit{
     };
   }
 */
-  initializeGraphic(){
-    this.graphicOption = {
-      title: {
-        text: "Comparação por Ano",
-      },
-      data: this.data.dadosPorTempo,
-      series: [
-        {
-          type: "line",
-          xKey: "dataCriacao",
-          yKey: "entradas",
-          yName: "Entradas",
-        },
-        {
-          type: "line",
-          xKey: "dataCriacao",
-          yKey: "engajamentos",
-          yName: "Engajamentos",
-        },
-      ] as AgLineSeriesOptions[],
-      axes: [
-        {
-          type: 'category',
-          position: 'bottom',
-          label: {
-            rotation: -45, // Girar rótulos do eixo X para facilitar a visualização
-            padding: 10   // Adicionar padding para evitar corte
-          }
-        },
-        {
-          type: 'number',
-          position: 'left'
-        }
-      ]
-    }
-  }
 }

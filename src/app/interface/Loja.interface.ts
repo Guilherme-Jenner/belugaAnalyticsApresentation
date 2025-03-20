@@ -1,11 +1,15 @@
 export interface ILoja {
-    Id: number;
-    Nome: string;
-    LocalizacaoId?: number;
-    TipoLoja?: string;
-    Area?: number;
-    Cnpj?: string;
-    Funcionarios?: any[];
-    Capacidade?: number;
-    Hora_Funcionamento?: string;
+    id: number;
+    nome: string;
+    localizacaoId?: number;
+    tipoLoja?: string;
+    area?: number;
+    cnpj?: string;
+    funcionarios?: any[];
+    capacidade?: number;
+    satisfacao?: number;
+    engajamento?: number;
+    visitantes?: number;
+    marcaId: number;
+    horaFuncionamento?: string;
 }

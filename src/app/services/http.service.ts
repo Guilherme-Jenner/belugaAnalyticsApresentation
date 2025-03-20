@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {IComportamentoConsumidor} from "../interface/Comportamento_Consumidor.interface";
+import { IDadosDispostivo } from "../interface/DadosDispositivo.interface";
 import {Observable} from "rxjs";
 import {IDispositivo} from "../interface/Dispositivo.interface";
 import { IZona } from '../interface/Zona.interface';
+import { ILoja } from '../interface/Loja.interface';
+import { IPrateleira } from '../interface/Prateleira.interface';
+import { ISecao } from '../interface/Secao.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +17,20 @@ export class HttpService {
 
   constructor(private http : HttpClient) { }
 
-  getComportamentos_Consumidor(lojaId : number) : Observable<IComportamentoConsumidor>{
-    return this.http.get<IComportamentoConsumidor>(`${this.apiUrl}/Beluga/GetComportamentoConsumidorAll/${lojaId}`);
+  getDadosByMarca(marcaId: number) : Observable<IDadosDispostivo>{
+    return this.http.get<IDadosDispostivo>(`${this.apiUrl}/Beluga/GetDadosByMarca/${marcaId}`);
+  }
+
+  getDadosByLoja(lojaId: number) : Observable<IDadosDispostivo>{
+    return this.http.get<IDadosDispostivo>(`${this.apiUrl}/Beluga/GetDadosByLoja/${lojaId}`);
+  }
+
+  getDadosByPrateleira(prateleiraId: number) : Observable<IDadosDispostivo>{
+    return this.http.get<IDadosDispostivo>(`${this.apiUrl}/Beluga/GetDadosByPrateleira/${prateleiraId}`);
+  }
+
+  getDadosBySecao(secaoId: number) : Observable<IDadosDispostivo>{
+    return this.http.get<IDadosDispostivo>(`${this.apiUrl}/Beluga/GetDadosBySecao/${secaoId}`);
   }
 
   getDispositivos(lojaId : number) : Observable<IDispositivo[]> {
@@ -38,5 +53,19 @@ export class HttpService {
     return this.http.post(`${this.apiUrl}/Beluga/SalvarLoja`, loja);
   }
 
+  getLojasByMarca(marcaId : number) : Observable<ILoja[]>{
+    return this.http.get<ILoja[]>(`${this.apiUrl}/Beluga/GetLojasByMarca/${marcaId}`);
+  }
   
+  getPrateleirasByLoja(lojaId : number) : Observable<IPrateleira[]>{
+    return this.http.get<IPrateleira[]>(`${this.apiUrl}/Beluga/GetPrateleirasByLoja/${lojaId}`);
+  }
+
+  getSecoesByPrateleira(prateleiraId : number) : Observable<ISecao[]>{
+    return this.http.get<ISecao[]>(`${this.apiUrl}/Beluga/GetSecoesByPrateleira/${prateleiraId}`);
+  }
+
+  salvarMarca(marca : any) : Observable<any>{
+    return this.http.post(`${this.apiUrl}/Beluga/SalvarMarca`, marca);
+  }
 }

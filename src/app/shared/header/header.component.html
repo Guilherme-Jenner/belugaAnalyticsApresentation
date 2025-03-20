@@ -1,17 +1,11 @@
 <header class="header">
   <div class="text">
     <h2>{{title}}</h2>
-    @if(lojas.length > 0){
-      <span>{{lojaSelecionada.nome}}</span>
-    } @else {
-      <button class="btn-add-loja" (click)="popUpAberto = true">Adicionar Loja</button>
-    }
+    <span>{{marca?.nome}}</span>
   </div>
   <div class="buttons">
-    @if(lojas.length > 0){
-      <button class="btn-add-loja" (click)="popUpAberto = true">Adicionar Loja</button>
-    }
-    <div class="dropdown">
+    <button class="btn-add-loja" (click)="popUpLojaAberto = true">Adicionar Loja</button>
+    <!-- <div class="dropdown">
       <button (click)="abrirDropdown()">Trocar Loja &darr;</button>
       @if(dropdownAberto){
         <div class="dropdown-content">
@@ -20,9 +14,12 @@
           }
         </div>
       }
-    </div>
+    </div> -->
   </div>
 </header>
-@if(popUpAberto){
-  <app-pop-up-loja (fecharPopup)="popUpAberto = false"></app-pop-up-loja>
+@if(popUpLojaAberto){
+  <app-pop-up-loja (fecharPopup)="this.popUpLojaAberto = false;"></app-pop-up-loja>
 }
+@if(popUpMarcaAberto){
+  <app-pop-up-marca (fecharPopup)="fecharPopUpMarca()"></app-pop-up-marca>
+} 

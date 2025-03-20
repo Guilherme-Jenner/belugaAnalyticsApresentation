@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { FormsModule } from '@angular/forms';
 import { HttpService } from '../../services/http.service';
+import notify from 'devextreme/ui/notify';
 
 @Component({
   selector: 'app-pop-up-loja',
@@ -34,7 +35,8 @@ export class PopUpLojaComponent {
 
   loja = {
     nome: '',
-    cnpj: ''
+    cnpj: '',
+    marcaId: 0
   };
 
   fechar() {
@@ -42,14 +44,15 @@ export class PopUpLojaComponent {
   }
 
   salvarLoja(){
-    console.log(this.loja);
+    const marca = JSON.parse(localStorage.getItem('marca') || '[]');
+    this.loja.marcaId = marca.marcaId;
+
     this.httpService.salvarLoja(this.loja).subscribe((res: any) => {
-      const lojas = JSON.parse(localStorage.getItem('loja') || '[]');
-      lojas.push(res);
-      
-      localStorage.setItem('loja', JSON.stringify(lojas));
       this.fecharPopup.emit();
-      window.location.reload();
+      notify({
+        message: 'Loja salva com sucesso',
+        type: 'success'
+      });
     });
   }
 }

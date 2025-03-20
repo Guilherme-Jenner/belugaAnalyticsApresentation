@@ -52,5 +52,26 @@ li span {
   font-size: 18px;
 }
 
+.goToImg {
+  width: 18px;
+  height: 18px;
+}
+ 
+::ng-deep tr.dx-row.dx-header-row {
+  background-color: hsl(210 40% 96.1% /.5) ; 
+  color: hsl(215.4 16.3% 46.9%);
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+}
 
+::ng-deep .dx-datagrid .dx-datagrid-headers .dx-header-row > td {
+  padding: 0.9rem 7px;
+}
 
+::ng-deep .dx-datagrid > .dx-datagrid-headers {
+  border-radius: 5px 5px 0 0;
+}  
+
+::ng-deep .dx-datagrid-borders .dx-datagrid-rowsview {
+  border-radius: 0 0 5px 5px;
+}
