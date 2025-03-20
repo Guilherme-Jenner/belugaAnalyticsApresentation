@@ -2,7 +2,8 @@
     <app-side-bar></app-side-bar>
     <div class="content-container">
         <app-header style="width: 100%"></app-header>
-        <div class="content">
+        @defer (when marca?.id! != undefined) {
+          <div class="content">
             <app-card
                 class="card"
                 style="width: 23%;"
@@ -128,5 +129,6 @@
               }
             </app-card>
         </div>
+        }
     </div>
 </main>

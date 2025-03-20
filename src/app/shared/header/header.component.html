@@ -1,7 +1,7 @@
 <header class="header">
   <div class="text">
     <h2>{{title}}</h2>
-    <span>{{marca?.nome}}</span>
+    <span>{{marca?.nome || 'Registre a Marca'}}</span>
   </div>
   <div class="buttons">
     <button class="btn-add-loja" (click)="popUpLojaAberto = true">Adicionar Loja</button>

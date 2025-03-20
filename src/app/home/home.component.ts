@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit{
 
   lojas! : ILoja[]
 
-  marca: {id: number, nome: string} = JSON.parse(localStorage.getItem('marca') || '{}')
+  marca: {id: number | string, nome: string} = JSON.parse(localStorage.getItem('marca') || "{}")
 
   prateleiras!: any
 
@@ -65,8 +65,13 @@ export class HomeComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.getData()
-    this.getLojasByMarca()
+    if(this.marca?.id == undefined){
+      notify('Cadastra sua Marca na plataforma e contate o suporte !')
+    }
+    else {
+      this.getData()
+      this.getLojasByMarca()
+    }
   }
 
   getLojasByMarca(): void {

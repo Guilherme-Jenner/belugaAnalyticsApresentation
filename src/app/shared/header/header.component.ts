@@ -12,7 +12,7 @@ import { PopUpMarcaComponent } from "../pop-up-marca/pop-up-marca.component";
 })
 export class HeaderComponent implements OnInit{
 
-  @Input() title : string = "Analytics da Loja"
+  @Input() title : string = "Analytics da Marca"
   marca : any;
   popUpMarcaAberto : boolean = false;
   popUpLojaAberto : boolean = false;
@@ -24,13 +24,14 @@ export class HeaderComponent implements OnInit{
   }
 
   getMarca(){
-    const marca = JSON.parse(localStorage.getItem('marca') || '[]');
-    if(marca.length === 0){
+    const marca = JSON.parse(localStorage.getItem('marca') || '{}');
+    
+    if(marca?.id === undefined){
       this.popUpMarcaAberto = true;
     }
     else {
       this.marca = marca;
-    } 
+    }
   }
 
   abrirDropdown(){
